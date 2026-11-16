@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DigiTech Sir — Be Technical | Be Modern</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+  </style>
+</head>
+<body class="text-slate-800 pb-24 md:pb-10">
+
+  <!-- TOP HEADER -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2.5">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-700 to-indigo-500 text-white font-extrabold flex items-center justify-center shadow">
+          DS
+        </div>
+        <div>
+          <h1 class="text-base md:text-lg font-extrabold tracking-tight text-slate-900 leading-none">DIGITECH SIR</h1>
+          <p class="text-[10px] font-semibold tracking-wider text-blue-600 uppercase mt-0.5">Be Technical | Be Modern</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <select id="langSelect" onchange="changeLanguage(this.value)" class="text-xs font-semibold bg-slate-100 border border-slate-200 rounded-lg px-2 py-1.5 outline-none">
+          <option value="en">English</option>
+          <option value="hi" selected>Hinglish</option>
+          <option value="hindi">हिंदी</option>
+          <option value="mr">मराठी</option>
+          <option value="ta">தமிழ்</option>
+          <option value="te">తెలుగు</option>
+          <option value="bn">বাংলা</option>
+        </select>
+        <button onclick="toggleAdminMode()" id="adminToggleBtn" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-900 text-white hover:bg-slate-800 transition">
+          Admin
+        </button>
+      </div>
+    </div>
+
+    <!-- DESKTOP NAV -->
+    <nav class="hidden md:flex max-w-6xl mx-auto px-4 pb-2 gap-6 text-sm font-semibold text-slate-600">
+      <button onclick="switchTab('home')" class="nav-btn text-blue-600 border-b-2 border-blue-600 pb-1" data-tab="home">Home & Courses</button>
+      <button onclick="switchTab('solutions')" class="nav-btn hover:text-blue-600 pb-1" data-tab="solutions">Get Solutions (1:1)</button>
+      <button onclick="switchTab('tools')" class="nav-btn hover:text-blue-600 pb-1" data-tab="tools">Growth Tools</button>
+      <button onclick="switchTab('forum')" class="nav-btn hover:text-blue-600 pb-1" data-tab="forum">Creator Forum</button>
+    </nav>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-6xl mx-auto px-4 pt-5 space-y-6">
+
+    <!-- LIVE STATUS BANNER -->
+    <div id="dbStatus" class="text-xs font-medium px-3 py-2 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center justify-between">
+      <span>🟢 Connected to DigiTech Sir Live Cloud</span>
+      <span id="welcomeTag" class="font-bold">Namaste Creators!</span>
+    </div>
+
+    <!-- USER VIEW -->
+    <div id="userView" class="space-y-6">
+
+      <!-- TAB 1: HOME & COURSES -->
+      <section id="tab-home" class="tab-section space-y-6">
+        <div class="bg-gradient-to-r from-blue-700 via-indigo-700 to-slate-900 rounded-2xl p-6 text-white shadow-lg">
+          <span class="text-xs uppercase tracking-widest bg-white/20 px-2.5 py-1 rounded-full font-bold">YouTube Growth & Monetization</span>
+          <h2 class="text-2xl md:text-3xl font-extrabold mt-3">Apne YouTube Channel Ko Next Level Par Le Jaayein</h2>
+          <p class="text-sm text-blue-100 mt-1.5 max-w-2xl">Reused content fix, copyright strike help, AdSense approval, aur practical 16:9 video courses — seedha DigiTech Sir ke saath.</p>
+          <div class="mt-4 flex flex-wrap gap-3">
+            <button onclick="switchTab('solutions')" class="bg-white text-blue-700 font-bold text-sm px-4 py-2.5 rounded-xl shadow hover:bg-blue-50">Book 1:1 Solution →</button>
+            <button onclick="switchTab('tools')" class="bg-blue-600/40 border border-white/30 text-white font-semibold text-sm px-4 py-2.5 rounded-xl hover:bg-blue-600/60">Try Free SEO Tools</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-lg font-extrabold text-slate-900">Featured 16:9 Courses</h3>
+            <span class="text-xs font-semibold text-blue-600">Updated 2026</span>
+          </div>
+          <div id="coursesGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Dynamic Courses Load Here -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: GET SOLUTIONS (TOPMATE STYLE) -->
+      <section id="tab-solutions" class="tab-section hidden space-y-5">
+        <div>
+          <h2 class="text-xl font-extrabold text-slate-900">Get Solutions — 1:1 Channel Help</h2>
+          <p class="text-xs text-slate-500 mt-0.5">Apni problem chunein, screenshot upload karein, aur seedha personal solution paayein.</p>
+        </div>
+
+        <div id="servicesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Dynamic Services Load Here -->
+        </div>
+
+        <!-- BOOKING FORM -->
+        <div id="bookingBox" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <h3 class="font-extrabold text-base text-slate-900" id="selectedServiceTitle">Book Your Solution Session</h3>
+          <form onsubmit="submitBooking(event)" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+            <input type="text" id="bName" required placeholder="Aapka Poora Naam *" class="border border-slate-300 rounded-xl px-3 py-2.5 outline-none focus:border-blue-600" />
+            <input type="tel" id="bWhatsapp" required placeholder="WhatsApp Number *" class="border border-slate-300 rounded-xl px-3 py-2.5 outline-none focus:border-blue-600" />
+            <input type="text" id="bChannel" placeholder="YouTube Channel Name" class="border border-slate-300 rounded-xl px-3 py-2.5 outline-none focus:border-blue-600" />
+            <input type="url" id="bLink" placeholder="Channel / Video Link" class="border border-slate-300 rounded-xl px-3 py-2.5 outline-none focus:border-blue-600" />
+            <input type="date" id="bDate" required class="border border-slate-300 rounded-xl px-3 py-2.5 outline-none focus:border-blue-600" />
+            <select id="bTime" class="border border-slate-300 rounded-xl px-3 py-2.5 outline-none focus:border-blue-600">
+              <option value="11:00 AM">11:00 AM - 11:30 AM</option>
+              <option value="04:00 PM">04:00 PM - 04:30 PM</option>
+              <option value="08:00 PM">08:00 PM - 08:30 PM</option>
+            </select>
+            <div class="md:col-span-2">
+              <label class="block text-xs font-bold text-slate-600 mb-1">Problem Screenshot Upload Karein (Optional)</label>
+              <input type="file" id="bScreenshot" accept="image/*" class="w-full text-xs border border-dashed border-slate-300 rounded-xl p-2.5 bg-slate-50" />
+            </div>
+            <button type="submit" id="bookSubmitBtn" class="md:col-span-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow transition">
+              Confirm Booking & Save Details
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- TAB 3: GROWTH TOOLS -->
+      <section id="tab-tools" class="tab-section hidden space-y-5">
+        <h2 class="text-xl font-extrabold text-slate-900">Creator Growth Tools (Free)</h2>
+
+        <!-- SEO GENERATOR -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <h3 class="font-bold text-base">1. Viral YouTube Title & Tag Generator</h3>
+          <div class="flex gap-2">
+            <input type="text" id="seoTopic" placeholder="Apne video ka topic likhein (e.g. Reused content kaise hataye)" class="flex-1 border border-slate-300 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-blue-600" />
+            <button onclick="generateSEO()" class="bg-blue-600 text-white font-bold text-sm px-4 py-2.5 rounded-xl">Generate</button>
+          </div>
+          <div id="seoOutput" class="hidden bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs space-y-2"></div>
+        </div>
+
+        <!-- TRAFFIC LIGHT VIDEO CHECKER -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <h3 class="font-bold text-base">2. Upload Se Pehle Video Safety Checker</h3>
+          <p class="text-xs text-slate-500">Apni video ke baare mein tick karein:</p>
+          <div class="space-y-2 text-sm">
+            <label class="flex items-center gap-2"><input type="checkbox" id="chkVoice" checked class="w-4 h-4 accent-blue-600"> Meri khud ki original voiceover / face hai</label>
+            <label class="flex items-center gap-2"><input type="checkbox" id="chkMusic" checked class="w-4 h-4 accent-blue-600"> No-copyright / YouTube Audio Library music use kiya hai</label>
+            <label class="flex items-center gap-2"><input type="checkbox" id="chkClip" class="w-4 h-4 accent-blue-600"> Dusre ka lamba video clip bina editing ke dala hai</label>
+          </div>
+          <button onclick="checkVideoSafety()" class="bg-slate-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl">Check Status</button>
+          <div id="safetyResult" class="hidden p-3 rounded-xl text-xs font-bold"></div>
+        </div>
+      </section>
+
+      <!-- TAB 4: CREATOR FORUM -->
+      <section id="tab-forum" class="tab-section hidden space-y-5">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <h2 class="text-lg font-extrabold text-slate-900">Ask DigiTech Sir (Creator Q&A)</h2>
+          <input type="text" id="fName" placeholder="Aapka Naam" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm outline-none" />
+          <textarea id="fQuestion" rows="2" placeholder="Apna YouTube se juda sawaal likhein..." class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm outline-none"></textarea>
+          <button onclick="postQuestion()" class="bg-blue-600 text-white text-sm font-bold px-4 py-2.5 rounded-xl">Post Question</button>
+        </div>
+
+        <div id="forumList" class="space-y-3">
+          <!-- Forum Posts Load Here -->
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ADMIN CONTROL ROOM -->
+    <div id="adminView" class="hidden space-y-6">
+      <div class="bg-slate-900 text-white p-5 rounded-2xl flex items-center justify-between">
+        <div>
+          <h2 class="text-lg font-extrabold">Admin Control Room</h2>
+          <p class="text-xs text-slate-400">Live bookings, courses, aur forum replies manage karein</p>
+        </div>
+        <button onclick="toggleAdminMode()" class="bg-white/10 hover:bg-white/20 text-xs font-bold px-3 py-2 rounded-xl">Back to Website</button>
+      </div>
+
+      <!-- ADD COURSE -->
+      <div class="bg-white p-5 rounded-2xl border border-slate-200 space-y-3">
+        <h3 class="font-bold text-base">+ Naya Course Publish Karein</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+          <input type="text" id="cTitle" placeholder="Course Title" class="border rounded-xl px-3 py-2" />
+          <input type="number" id="cPrice" placeholder="Price (₹)" class="border rounded-xl px-3 py-2" />
+          <input type="text" id="cLessons" placeholder="Lessons (e.g. 12 Video Lessons)" class="border rounded-xl px-3 py-2" />
+          <input type="text" id="cDesc" placeholder="Short Description" class="border rounded-xl px-3 py-2" />
+        </div>
+        <button onclick="addCourse()" class="bg-emerald-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl">Publish Course Live</button>
+      </div>
+
+      <!-- LIVE BOOKINGS LIST -->
+      <div class="bg-white p-5 rounded-2xl border border-slate-200 space-y-3">
+        <h3 class="font-bold text-base">Recent Solution Bookings</h3>
+        <div id="adminBookingsList" class="space-y-3 text-sm"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MOBILE BOTTOM NAVIGATION -->
+  <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-slate-200 flex justify-around py-2 z-50 text-[11px] font-bold text-slate-500">
+    <button onclick="switchTab('home')" class="m-nav text-blue-600 flex flex-col items-center" data-tab="home"><span>🏠</span>Home</button>
+    <button onclick="switchTab('solutions')" class="m-nav flex flex-col items-center" data-tab="solutions"><span>💡</span>Solutions</button>
+    <button onclick="switchTab('tools')" class="m-nav flex flex-col items-center" data-tab="tools"><span>🛠️</span>Tools</button>
+    <button onclick="switchTab('forum')" class="m-nav flex flex-col items-center" data-tab="forum"><span>💬</span>Forum</button>
+  </nav>
+
+  <script>
+    // SUPABASE LIVE CONNECTION
+    const SUPABASE_URL = "https://ekvwczxeosndmjjirpin.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_KF1N5x4KMEce8uENhv0oyQ_mzT2FmfP";
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let selectedService = { title: "Reused Content Fix", price: 399 };
+    let isAdmin = false;
+
+    // TAB SWITCHER
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-section').forEach(el => el.classList.add('hidden'));
+      document.getElementById('tab-' + tab).classList.remove('hidden');
+      document.querySelectorAll('.nav-btn').forEach(b => {
+        b.classList.toggle('text-blue-600', b.dataset.tab === tab);
+        b.classList.toggle('border-b-2', b.dataset.tab === tab);
+        b.classList.toggle('border-blue-600', b.dataset.tab === tab);
+      });
+      document.querySelectorAll('.m-nav').forEach(b => {
+        b.classList.toggle('text-blue-600', b.dataset.tab === tab);
+      });
+    }
+
+    // ADMIN TOGGLE
+    function toggleAdminMode() {
+      if (!isAdmin) {
+        const pass = prompt("Admin PIN daalein (Default: 1234):");
+        if (pass !== "1234") { alert("Galat PIN!"); return; }
+      }
+      isAdmin = !isAdmin;
+      document.getElementById('userView').classList.toggle('hidden', isAdmin);
+      document.getElementById('adminView').classList.toggle('hidden', !isAdmin);
+      document.getElementById('adminToggleBtn').innerText = isAdmin ? "Exit Admin" : "Admin";
+      if (isAdmin) loadAdminBookings();
+    }
+
+    // LANGUAGE GREETING
+    function changeLanguage(lang) {
+      const greetings = {
+        en: "Welcome Creators!",
+        hi: "Namaste Creators!",
+        hindi: "नमस्ते क्रिएटर्स!",
+        mr: "नमस्कार क्रिएटर्स!",
+        ta: "வணக்கம் கிரியேட்டர்ஸ்!",
+        te: "నమస్కారం క్రియేటర్స్!",
+        bn: "নমস্কার ক্রিয়েটরস!"
+      };
+      document.getElementById('welcomeTag').innerText = greetings[lang] || "Namaste Creators!";
+    }
+
+    // LOAD SERVICES FROM SUPABASE
+    async function loadServices() {
+      const { data } = await db.from('services').select('*').eq('is_active', true);
+      const grid = document.getElementById('servicesGrid');
+      if (!data || data.length === 0) return;
+      grid.innerHTML = data.map(s => `
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-start gap-2">
+              <h4 class="font-extrabold text-slate-900">${s.title}</h4>
+              <span class="bg-blue-50 text-blue-700 text-xs font-extrabold px-2.5 py-1 rounded-lg">₹${s.price}</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-1.5">${s.description || ''}</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-[11px] font-semibold text-slate-500">⏱ ${s.duration}</span>
+            <button onclick="selectService('${s.title}', ${s.price})" class="bg-slate-900 text-white text-xs font-bold px-3.5 py-2 rounded-xl hover:bg-blue-600 transition">Select & Book</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function selectService(title, price) {
+      selectedService = { title, price };
+      document.getElementById('selectedServiceTitle').innerText = `Booking: ${title} (₹${price})`;
+      document.getElementById('bookingBox').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // SUBMIT BOOKING
+    async function submitBooking(e) {
+      e.preventDefault();
+      const btn = document.getElementById('bookSubmitBtn');
+      btn.innerText = "Saving Booking...";
+      const payload = {
+        service_title: selectedService.title,
+        user_name: document.getElementById('bName').value,
+        whatsapp_number: document.getElementById('bWhatsapp').value,
+        channel_name: document.getElementById('bChannel').value,
+        channel_link: document.getElementById('bLink').value,
+        slot_date: document.getElementById('bDate').value,
+        slot_time: document.getElementById('bTime').value,
+        amount: selectedService.price
+      };
+      const { error } = await db.from('bookings').insert([payload]);
+      btn.innerText = "Confirm Booking & Save Details";
+      if (error) { alert("Error: " + error.message); return; }
+      alert("✅ Booking Confirm Ho Gayi! DigiTech Sir team aapse WhatsApp par sampark karegi.");
+      e.target.reset();
+    }
+
+    // LOAD COURSES
+    async function loadCourses() {
+      const { data } = await db.from('courses').select('*').order('created_at', { ascending: false });
+      const grid = document.getElementById('coursesGrid');
+      const items = (data && data.length > 0) ? data : [
+        { title: "YouTube Monetization Mastery", description: "Zero se monetization tak complete step-by-step course", price: 499, lessons_count: "14 Lessons" },
+        { title: "Thumbnail & CTR Science", description: "High-click thumbnails banane ke practical formulas", price: 299, lessons_count: "8 Lessons" },
+        { title: "Reused Content & Policy Guide", description: "Channel ko safe rakhne aur appeal karne ka tareeka", price: 399, lessons_count: "10 Lessons" }
+      ];
+      grid.innerHTML = items.map(c => `
+        <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+          <div class="aspect-video bg-gradient-to-br from-slate-800 to-blue-900 p-4 flex flex-col justify-end text-white">
+            <span class="text-[10px] uppercase tracking-wider bg-blue-600 w-fit px-2 py-0.5 rounded font-bold">${c.lessons_count}</span>
+            <h4 class="font-extrabold text-base mt-1">${c.title}</h4>
+          </div>
+          <div class="p-4">
+            <p class="text-xs text-slate-500">${c.description || ''}</p>
+            <div class="mt-3 flex items-center justify-between">
+              <span class="font-extrabold text-slate-900">₹${c.price}</span>
+              <button onclick="alert('Course enrollment ke liye Get Solutions tab se booking karein!')" class="text-xs font-bold text-blue-600 hover:underline">Enroll Now →</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ADD COURSE (ADMIN)
+    async function addCourse() {
+      const title = document.getElementById('cTitle').value;
+      const price = parseInt(document.getElementById('cPrice').value || "299");
+      const lessons_count = document.getElementById('cLessons').value || "10 Lessons";
+      const description = document.getElementById('cDesc').value;
+      if (!title) return alert("Course title likhein");
+      const { error } = await db.from('courses').insert([{ title, price, lessons_count, description }]);
+      if (error) return alert(error.message);
+      alert("✅ Naya Course Live Ho Gaya!");
+      loadCourses();
+    }
+
+    // GROWTH TOOLS
+    function generateSEO() {
+      co
