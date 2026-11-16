@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>DigiTech Sir — Be Technical | Be Modern</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
-    button, select { cursor: pointer; touch-action: manipulation; }
+    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; -webkit-tap-highlight-color: transparent; }
+    button, select, input, textarea { touch-action: manipulation; }
   </style>
 </head>
 <body class="text-slate-800 pb-24 md:pb-10">
@@ -27,7 +27,7 @@
       </div>
 
       <div class="flex items-center gap-2">
-        <select id="langSelect" onchange="changeLanguage(this.value)" class="text-xs font-semibold bg-slate-100 border border-slate-200 rounded-lg px-2 py-1.5 outline-none">
+        <select id="langSelect" class="text-xs font-semibold bg-slate-100 border border-slate-200 rounded-lg px-2 py-1.5 outline-none">
           <option value="en">English</option>
           <option value="hi" selected>Hinglish</option>
           <option value="hindi">हिंदी</option>
@@ -36,7 +36,7 @@
           <option value="te">తెలుగు</option>
           <option value="bn">বাংলা</option>
         </select>
-        <button type="button" onclick="toggleAdminMode()" id="adminToggleBtn" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-900 text-white active:scale-95 transition">
+        <button type="button" id="adminToggleBtn" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-900 text-white active:scale-95 transition">
           Admin
         </button>
       </div>
@@ -44,15 +44,16 @@
 
     <!-- DESKTOP NAV -->
     <nav class="hidden md:flex max-w-6xl mx-auto px-4 pb-2 gap-6 text-sm font-semibold text-slate-600">
-      <button type="button" onclick="switchTab('home')" class="nav-btn text-blue-600 border-b-2 border-blue-600 pb-1" data-tab="home">Home & Courses</button>
-      <button type="button" onclick="switchTab('solutions')" class="nav-btn hover:text-blue-600 pb-1" data-tab="solutions">Get Solutions (1:1)</button>
-      <button type="button" onclick="switchTab('tools')" class="nav-btn hover:text-blue-600 pb-1" data-tab="tools">Growth Tools</button>
-      <button type="button" onclick="switchTab('forum')" class="nav-btn hover:text-blue-600 pb-1" data-tab="forum">Creator Forum</button>
+      <button type="button" class="nav-btn text-blue-600 border-b-2 border-blue-600 pb-1" data-tab="home">Home & Courses</button>
+      <button type="button" class="nav-btn hover:text-blue-600 pb-1" data-tab="solutions">Get Solutions (1:1)</button>
+      <button type="button" class="nav-btn hover:text-blue-600 pb-1" data-tab="tools">Growth Tools</button>
+      <button type="button" class="nav-btn hover:text-blue-600 pb-1" data-tab="forum">Creator Forum</button>
+      <button type="button" class="nav-btn hover:text-blue-600 pb-1" data-tab="profile">My Profile</button>
     </nav>
   </header>
 
   <!-- MAIN CONTAINER -->
-  <main class="max-w-6xl mx-auto px-4 pt-5 space-y-6">
+  <main class="max-w-6xl mx-auto px-4 pt-4 space-y-5">
 
     <!-- LIVE STATUS BANNER -->
     <div id="dbStatus" class="text-xs font-medium px-3 py-2 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center justify-between">
@@ -70,8 +71,8 @@
           <h2 class="text-2xl md:text-3xl font-extrabold mt-3">Apne YouTube Channel Ko Next Level Par Le Jaayein</h2>
           <p class="text-sm text-blue-100 mt-1.5 max-w-2xl">Reused content fix, copyright strike help, AdSense approval, aur practical 16:9 video courses — seedha DigiTech Sir ke saath.</p>
           <div class="mt-4 flex flex-wrap gap-3">
-            <button type="button" onclick="switchTab('solutions')" class="bg-white text-blue-700 font-bold text-sm px-4 py-2.5 rounded-xl shadow active:scale-95">Book 1:1 Solution →</button>
-            <button type="button" onclick="switchTab('tools')" class="bg-blue-600/40 border border-white/30 text-white font-semibold text-sm px-4 py-2.5 rounded-xl active:scale-95">Try Free SEO Tools</button>
+            <button type="button" data-go="solutions" class="go-tab-btn bg-white text-blue-700 font-bold text-sm px-4 py-2.5 rounded-xl shadow active:scale-95">Book 1:1 Solution →</button>
+            <button type="button" data-go="tools" class="go-tab-btn bg-blue-600/40 border border-white/30 text-white font-semibold text-sm px-4 py-2.5 rounded-xl active:scale-95">Try Free SEO Tools</button>
           </div>
         </div>
 
@@ -95,7 +96,7 @@
 
         <div id="bookingBox" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <h3 class="font-extrabold text-base text-slate-900" id="selectedServiceTitle">Booking: Reused Content Fix (₹399)</h3>
-          <form onsubmit="submitBooking(event)" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+          <form id="bookingForm" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
             <input type="text" id="bName" required placeholder="Aapka Poora Naam *" class="border border-slate-300 rounded-xl px-3 py-2.5 outline-none focus:border-blue-600" />
             <input type="tel" id="bWhatsapp" required placeholder="WhatsApp Number *" class="border border-slate-300 rounded-xl px-3 py-2.5 outline-none focus:border-blue-600" />
             <input type="text" id="bChannel" placeholder="YouTube Channel Name" class="border border-slate-300 rounded-xl px-3 py-2.5 outline-none focus:border-blue-600" />
@@ -125,7 +126,7 @@
           <h3 class="font-bold text-base">1. Viral YouTube Title & Tag Generator</h3>
           <div class="flex gap-2">
             <input type="text" id="seoTopic" placeholder="Video ka topic likhein (e.g. Reused content fix)" class="flex-1 border border-slate-300 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-blue-600" />
-            <button type="button" onclick="generateSEO()" class="bg-blue-600 text-white font-bold text-sm px-4 py-2.5 rounded-xl">Generate</button>
+            <button type="button" id="genSeoBtn" class="bg-blue-600 text-white font-bold text-sm px-4 py-2.5 rounded-xl">Generate</button>
           </div>
           <div id="seoOutput" class="hidden bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs space-y-2"></div>
         </div>
@@ -137,7 +138,7 @@
             <label class="flex items-center gap-2"><input type="checkbox" id="chkMusic" checked class="w-4 h-4 accent-blue-600"> No-copyright / YouTube Audio Library music use kiya hai</label>
             <label class="flex items-center gap-2"><input type="checkbox" id="chkClip" class="w-4 h-4 accent-blue-600"> Dusre ka lamba video clip bina editing ke dala hai</label>
           </div>
-          <button type="button" onclick="checkVideoSafety()" class="bg-slate-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl">Check Status</button>
+          <button type="button" id="checkSafetyBtn" class="bg-slate-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl">Check Status</button>
           <div id="safetyResult" class="hidden p-3 rounded-xl text-xs font-bold"></div>
         </div>
       </section>
@@ -148,10 +149,41 @@
           <h2 class="text-lg font-extrabold text-slate-900">Ask DigiTech Sir (Creator Q&A)</h2>
           <input type="text" id="fName" placeholder="Aapka Naam" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm outline-none" />
           <textarea id="fQuestion" rows="2" placeholder="Apna YouTube se juda sawaal likhein..." class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm outline-none"></textarea>
-          <button type="button" onclick="postQuestion()" class="bg-blue-600 text-white text-sm font-bold px-4 py-2.5 rounded-xl">Post Question</button>
+          <button type="button" id="postQuestionBtn" class="bg-blue-600 text-white text-sm font-bold px-4 py-2.5 rounded-xl">Post Question</button>
         </div>
 
         <div id="forumList" class="space-y-3"></div>
+      </section>
+
+      <!-- TAB 5: USER PROFILE -->
+      <section id="tab-profile" class="tab-section hidden space-y-5">
+        <div class="bg-gradient-to-r from-slate-900 to-blue-900 text-white p-5 rounded-2xl shadow flex items-center gap-4">
+          <div id="profAvatar" class="w-14 h-14 rounded-full bg-blue-500 text-white font-extrabold text-xl flex items-center justify-center shrink-0">
+            CR
+          </div>
+          <div>
+            <h2 id="profDisplayName" class="text-lg font-extrabold">Creator Profile</h2>
+            <p id="profDisplayChannel" class="text-xs text-blue-200">Apni channel details neeche save karein</p>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <h3 class="font-extrabold text-base text-slate-900">Edit Creator Details</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+            <input type="text" id="pName" placeholder="Aapka Poora Naam" class="border border-slate-300 rounded-xl px-3 py-2.5 outline-none" />
+            <input type="tel" id="pWhatsapp" placeholder="WhatsApp Number" class="border border-slate-300 rounded-xl px-3 py-2.5 outline-none" />
+            <input type="text" id="pChannel" placeholder="YouTube Channel Name" class="border border-slate-300 rounded-xl px-3 py-2.5 outline-none" />
+            <input type="url" id="pLink" placeholder="YouTube Channel Link (https://...)" class="border border-slate-300 rounded-xl px-3 py-2.5 outline-none" />
+          </div>
+          <button type="button" id="saveProfileBtn" class="bg-blue-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl">Save Profile</button>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <h3 class="font-extrabold text-base text-slate-900">Meri Bookings History</h3>
+          <div id="myBookingsList" class="space-y-2.5 text-sm">
+            <p class="text-xs text-slate-400">Apna WhatsApp number save karein taaki aapki bookings yahan dikhein.</p>
+          </div>
+        </div>
       </section>
 
     </div>
@@ -163,7 +195,7 @@
           <h2 class="text-lg font-extrabold">Admin Control Room</h2>
           <p class="text-xs text-slate-400">Live bookings aur courses manage karein</p>
         </div>
-        <button type="button" onclick="toggleAdminMode()" class="bg-white/10 text-xs font-bold px-3 py-2 rounded-xl">Back to Website</button>
+        <button type="button" id="backFromAdminBtn" class="bg-white/10 text-xs font-bold px-3 py-2 rounded-xl">Back to Website</button>
       </div>
 
       <div class="bg-white p-5 rounded-2xl border border-slate-200 space-y-3">
@@ -174,7 +206,7 @@
           <input type="text" id="cLessons" placeholder="Lessons (e.g. 12 Video Lessons)" class="border rounded-xl px-3 py-2" />
           <input type="text" id="cDesc" placeholder="Short Description" class="border rounded-xl px-3 py-2" />
         </div>
-        <button type="button" onclick="addCourse()" class="bg-emerald-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl">Publish Course Live</button>
+        <button type="button" id="addCourseBtn" class="bg-emerald-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl">Publish Course Live</button>
       </div>
 
       <div class="bg-white p-5 rounded-2xl border border-slate-200 space-y-3">
@@ -185,157 +217,114 @@
 
   </main>
 
-  <!-- MOBILE BOTTOM NAVIGATION -->
-  <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-slate-200 flex justify-around py-2.5 z-50 text-[11px] font-bold text-slate-500 shadow-lg">
-    <button type="button" onclick="switchTab('home')" class="m-nav text-blue-600 flex flex-col items-center px-3" data-tab="home"><span>🏠</span>Home</button>
-    <button type="button" onclick="switchTab('solutions')" class="m-nav flex flex-col items-center px-3" data-tab="solutions"><span>💡</span>Solutions</button>
-    <button type="button" onclick="switchTab('tools')" class="m-nav flex flex-col items-center px-3" data-tab="tools"><span>🛠️</span>Tools</button>
-    <button type="button" onclick="switchTab('forum')" class="m-nav flex flex-col items-center px-3" data-tab="forum"><span>💬</span>Forum</button>
+  <!-- MOBILE BOTTOM NAVIGATION (5 TABS WITH PROFILE) -->
+  <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-slate-200 flex justify-around py-2 z-50 text-[10px] font-bold text-slate-500 shadow-lg">
+    <button type="button" class="m-nav text-blue-600 flex flex-col items-center px-2 py-1" data-tab="home"><span class="text-base">🏠</span>Home</button>
+    <button type="button" class="m-nav flex flex-col items-center px-2 py-1" data-tab="solutions"><span class="text-base">💡</span>Solutions</button>
+    <button type="button" class="m-nav flex flex-col items-center px-2 py-1" data-tab="tools"><span class="text-base">🛠️</span>Tools</button>
+    <button type="button" class="m-nav flex flex-col items-center px-2 py-1" data-tab="forum"><span class="text-base">💬</span>Forum</button>
+    <button type="button" class="m-nav flex flex-col items-center px-2 py-1" data-tab="profile"><span class="text-base">👤</span>Profile</button>
   </nav>
 
   <script>
-    const SUPABASE_URL = "https://ekvwczxeosndmjjirpin.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_KF1N5x4KMEce8uENhv0oyQ_mzT2FmfP";
-    let selectedService = { title: "Reused Content Fix", price: 399 };
-    let isAdmin = false;
+    document.addEventListener("DOMContentLoaded", function () {
+      const SUPABASE_URL = "https://ekvwczxeosndmjjirpin.supabase.co";
+      const SUPABASE_KEY = "sb_publishable_KF1N5x4KMEce8uENhv0oyQ_mzT2FmfP";
+      let selectedService = { title: "Reused Content Fix", price: 399 };
+      let isAdmin = false;
 
-    // DIRECT REST API HELPER (100% RELIABLE ON ALL MOBILE BROWSERS)
-    async function supaFetch(table, method = "GET", body = null, query = "?select=*&order=created_at.desc") {
-      const url = `${SUPABASE_URL}/rest/v1/${table}${method === "GET" ? query : ""}`;
-      const headers = {
-        "apikey": SUPABASE_KEY,
-        "Authorization": `Bearer ${SUPABASE_KEY}`,
-        "Content-Type": "application/json",
-        "Prefer": "return=representation"
-      };
-      const res = await fetch(url, {
-        method,
-        headers,
-        body: body ? JSON.stringify(body) : null
-      });
-      if (!res.ok) throw new Error(await res.text());
-      return await res.json();
-    }
-
-    // TAB SWITCHER
-    function switchTab(tab) {
-      document.querySelectorAll('.tab-section').forEach(el => el.classList.add('hidden'));
-      const target = document.getElementById('tab-' + tab);
-      if (target) target.classList.remove('hidden');
-
-      document.querySelectorAll('.nav-btn').forEach(b => {
-        const active = b.dataset.tab === tab;
-        b.classList.toggle('text-blue-600', active);
-        b.classList.toggle('border-b-2', active);
-        b.classList.toggle('border-blue-600', active);
-      });
-      document.querySelectorAll('.m-nav').forEach(b => {
-        b.classList.toggle('text-blue-600', b.dataset.tab === tab);
-      });
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // ADMIN TOGGLE
-    function toggleAdminMode() {
-      if (!isAdmin) {
-        const pass = prompt("Admin PIN daalein (Default: 1234):");
-        if (pass !== "1234") { alert("Galat PIN!"); return; }
-      }
-      isAdmin = !isAdmin;
-      document.getElementById('userView').classList.toggle('hidden', isAdmin);
-      document.getElementById('adminView').classList.toggle('hidden', !isAdmin);
-      document.getElementById('adminToggleBtn').innerText = isAdmin ? "Exit Admin" : "Admin";
-      if (isAdmin) loadAdminBookings();
-    }
-
-    // LANGUAGE GREETING
-    function changeLanguage(lang) {
-      const greetings = {
-        en: "Welcome Creators!",
-        hi: "Namaste Creators!",
-        hindi: "नमस्ते क्रिएटर्स!",
-        mr: "नमस्कार क्रिएटर्स!",
-        ta: "வணக்கம் கிரியேட்டர்ஸ்!",
-        te: "నమస్కారం క్రియేటర్స్!",
-        bn: "নমস্কার ক্রিয়েটরস!"
-      };
-      document.getElementById('welcomeTag').innerText = greetings[lang] || "Namaste Creators!";
-    }
-
-    // DEFAULT FALLBACK DATA
-    const defaultServices = [
-      { title: "Reused Content Fix", description: "Complete channel review & appeal script for Reused Content rejection", price: 399, duration: "30 Mins" },
-      { title: "Policy & Copyright Strike Help", description: "Step-by-step guidance to resolve Community Guidelines or Copyright strikes", price: 499, duration: "30 Mins" },
-      { title: "AdSense & Monetization Stuck", description: "Fix Step 2 AdSense errors, PIN issues, or identity verification", price: 349, duration: "25 Mins" },
-      { title: "1:1 Full Channel Audit", description: "Deep analysis of thumbnails, titles, CTR, and growth roadmap", price: 599, duration: "45 Mins" }
-    ];
-
-    const defaultCourses = [
-      { title: "YouTube Monetization Mastery", description: "Zero se monetization tak complete step-by-step course", price: 499, lessons_count: "14 Lessons" },
-      { title: "Thumbnail & CTR Science", description: "High-click thumbnails banane ke practical formulas", price: 299, lessons_count: "8 Lessons" },
-      { title: "Reused Content & Policy Guide", description: "Channel ko safe rakhne aur appeal karne ka tareeka", price: 399, lessons_count: "10 Lessons" }
-    ];
-
-    function renderServices(items) {
-      document.getElementById('servicesGrid').innerHTML = items.map(s => `
-        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
-          <div>
-            <div class="flex justify-between items-start gap-2">
-              <h4 class="font-extrabold text-slate-900">${s.title}</h4>
-              <span class="bg-blue-50 text-blue-700 text-xs font-extrabold px-2.5 py-1 rounded-lg">₹${s.price}</span>
-            </div>
-            <p class="text-xs text-slate-500 mt-1.5">${s.description || ''}</p>
-          </div>
-          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-            <span class="text-[11px] font-semibold text-slate-500">⏱ ${s.duration || '30 Mins'}</span>
-            <button type="button" onclick="selectService('${s.title}', ${s.price})" class="bg-slate-900 text-white text-xs font-bold px-3.5 py-2 rounded-xl">Select & Book</button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function renderCourses(items) {
-      document.getElementById('coursesGrid').innerHTML = items.map(c => `
-        <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
-          <div class="aspect-video bg-gradient-to-br from-slate-800 to-blue-900 p-4 flex flex-col justify-end text-white">
-            <span class="text-[10px] uppercase tracking-wider bg-blue-600 w-fit px-2 py-0.5 rounded font-bold">${c.lessons_count || '10 Lessons'}</span>
-            <h4 class="font-extrabold text-base mt-1">${c.title}</h4>
-          </div>
-          <div class="p-4">
-            <p class="text-xs text-slate-500">${c.description || ''}</p>
-            <div class="mt-3 flex items-center justify-between">
-              <span class="font-extrabold text-slate-900">₹${c.price}</span>
-              <button type="button" onclick="switchTab('solutions')" class="text-xs font-bold text-blue-600">Enroll Now →</button>
-            </div>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function selectService(title, price) {
-      selectedService = { title, price };
-      document.getElementById('selectedServiceTitle').innerText = `Booking: ${title} (₹${price})`;
-      document.getElementById('bookingBox').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    async function submitBooking(e) {
-      e.preventDefault();
-      const btn = document.getElementById('bookSubmitBtn');
-      btn.innerText = "Saving Booking...";
-      try {
-        await supaFetch("bookings", "POST", {
-          service_title: selectedService.title,
-          user_name: document.getElementById('bName').value,
-          whatsapp_number: document.getElementById('bWhatsapp').value,
-          channel_name: document.getElementById('bChannel').value,
-          channel_link: document.getElementById('bLink').value,
-          slot_date: document.getElementById('bDate').value,
-          slot_time: document.getElementById('bTime').value,
-          amount: selectedService.price
+      // DIRECT REST API HELPER
+      async function supaFetch(table, method = "GET", body = null, query = "?select=*&order=created_at.desc") {
+        const url = `${SUPABASE_URL}/rest/v1/${table}${method === "GET" ? query : ""}`;
+        const res = await fetch(url, {
+          method,
+          headers: {
+            "apikey": SUPABASE_KEY,
+            "Authorization": `Bearer ${SUPABASE_KEY}`,
+            "Content-Type": "application/json",
+            "Prefer": "return=representation"
+          },
+          body: body ? JSON.stringify(body) : null
         });
-        alert("✅ Booking Confirm Ho Gayi! DigiTech Sir team aapse WhatsApp par sampark karegi.");
-        e.target.reset();
-      } catch (err) {
-        alert("Booking save nahi hui: " + err.message);
-      } finally {
-        btn.innerText = "Confirm Booking & Save Detai
+        if (!res.ok) throw new Error(await res.text());
+        return await res.json();
+      }
+
+      // TAB SWITCHER
+      function switchTab(tab) {
+        if (isAdmin) {
+          isAdmin = false;
+          document.getElementById('userView').classList.remove('hidden');
+          document.getElementById('adminView').classList.add('hidden');
+          document.getElementById('adminToggleBtn').innerText = "Admin";
+        }
+        document.querySelectorAll('.tab-section').forEach(el => el.classList.add('hidden'));
+        const target = document.getElementById('tab-' + tab);
+        if (target) target.classList.remove('hidden');
+
+        document.querySelectorAll('.nav-btn').forEach(b => {
+          const active = b.dataset.tab === tab;
+          b.classList.toggle('text-blue-600', active);
+          b.classList.toggle('border-b-2', active);
+          b.classList.toggle('border-blue-600', active);
+        });
+        document.querySelectorAll('.m-nav').forEach(b => {
+          b.classList.toggle('text-blue-600', b.dataset.tab === tab);
+        });
+        if (tab === 'profile') loadUserProfile();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // ATTACH TAB EVENTS
+      document.querySelectorAll('.nav-btn, .m-nav').forEach(btn => {
+        btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+      });
+      document.querySelectorAll('.go-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => switchTab(btn.dataset.go));
+      });
+
+      // ADMIN TOGGLE
+      function toggleAdminMode() {
+        if (!isAdmin) {
+          const pass = prompt("Admin PIN daalein (Default: 1234):");
+          if (pass !== "1234") { alert("Galat PIN!"); return; }
+        }
+        isAdmin = !isAdmin;
+        document.getElementById('userView').classList.toggle('hidden', isAdmin);
+        document.getElementById('adminView').classList.toggle('hidden', !isAdmin);
+        document.getElementById('adminToggleBtn').innerText = isAdmin ? "Exit Admin" : "Admin";
+        if (isAdmin) loadAdminBookings();
+      }
+      document.getElementById('adminToggleBtn').addEventListener('click', toggleAdminMode);
+      document.getElementById('backFromAdminBtn').addEventListener('click', toggleAdminMode);
+
+      // LANGUAGE SWITCHER
+      document.getElementById('langSelect').addEventListener('change', function () {
+        const greetings = {
+          en: "Welcome Creators!",
+          hi: "Namaste Creators!",
+          hindi: "नमस्ते क्रिएटर्स!",
+          mr: "नमस्कार क्रिएटर्स!",
+          ta: "வணக்கம் கிரியேட்டர்ஸ்!",
+          te: "నమస్కారం క్రియేటర్స్!",
+          bn: "নমস্কার ক্রিয়েটরস!"
+        };
+        document.getElementById('welcomeTag').innerText = greetings[this.value] || "Namaste Creators!";
+      });
+
+      // DEFAULT SERVICES & COURSES
+      const defaultServices = [
+        { title: "Reused Content Fix", description: "Complete channel review & appeal script for Reused Content rejection", price: 399, duration: "30 Mins" },
+        { title: "Policy & Copyright Strike Help", description: "Step-by-step guidance to resolve Community Guidelines or Copyright strikes", price: 499, duration: "30 Mins" },
+        { title: "AdSense & Monetization Stuck", description: "Fix Step 2 AdSense errors, PIN issues, or identity verification", price: 349, duration: "25 Mins" },
+        { title: "1:1 Full Channel Audit", description: "Deep analysis of thumbnails, titles, CTR, and growth roadmap", price: 599, duration: "45 Mins" }
+      ];
+
+      const defaultCourses = [
+        { title: "YouTube Monetization Mastery", description: "Zero se monetization tak complete step-by-step course", price: 499, lessons_count: "14 Lessons" },
+        { title: "Thumbnail & CTR Science", description: "High-click thumbnails banane ke practical formulas", price: 299, lessons_count: "8 Lessons" },
+        { title: "Reused Content & Policy Guide", description: "Channel ko safe rakhne aur appeal karne ka tareeka", price: 399, lessons_count: "10 Lessons" }
+      ];
+
+      function renderServices(items) {
+        const grid = docu
